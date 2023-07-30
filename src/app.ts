@@ -6,6 +6,7 @@ import { requestData } from './api';
 import { Discussion, GrcAssetData, Release, ReleaseAsset, Resource } from './types';
 
 dotenv.config()
+console.log('start fetch meata data!');
 main()
 
 async function main() {
@@ -46,7 +47,9 @@ async function main() {
                 })
             }
             console.log("mod count: %s", result.length);
-            fs.writeFileSync("resources.json", JSON.stringify(result))
+            if (!fs.existsSync('result'))
+                fs.mkdirSync('result')
+            fs.writeFileSync("result/resources.json", JSON.stringify(result))
         } else {
             console.warn("repo %s not is public", repository.full_name);
         }
