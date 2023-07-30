@@ -21,6 +21,7 @@ jobs:
       - name: run script
         env:
           APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+          APP_ID: ${{ vars.APP_ID }}
         run: npx tsc && node dist/app.js
       
       - name: prepare commit
