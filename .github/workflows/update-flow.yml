@@ -32,10 +32,11 @@ jobs:
           fetch-depth: 0
       
       - name: prepare comit
-        run: rm package*.json;cp -f *.json ./self;cd self
+        run: rm package*.json;cp -f *.json ./self
 
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
           github_token: ${{ secrets.REPO_TOKEN }}
           force: true
+          directory: './self'
