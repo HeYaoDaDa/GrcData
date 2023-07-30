@@ -25,7 +25,7 @@ jobs:
         run: npx tsc && node dist/app.js
       
       - name: prepare commit
-        run: echo '\nsrc/\npackage*\ntsconfig.json' >> ./.gitignore;git remote set-url origin https://github.com/${{github.repository}}.git
+        run: echo '\nsrc/\npackage*\ntsconfig.json' >> ./.gitignore
 
       - name: Commit & Push changes
         uses: actions-js/push@master
