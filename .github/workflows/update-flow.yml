@@ -8,7 +8,7 @@ jobs:
     name: Update Main Data
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: checkout GrcData
         uses: actions/checkout@master
         with:
           repository: 'HeYaoDaDa/GrcData'
@@ -24,8 +24,15 @@ jobs:
           APP_ID: ${{ vars.APP_ID }}
         run: npx tsc && node dist/app.js
       
-      - name: prepare commit
-        run: echo '\nsrc/\npackage*\ntsconfig.json' >> ./.gitignore
+      - name: checkout self
+        uses: actions/checkout@master
+        with:
+          path: 'self'
+          persist-credentials: false
+          fetch-depth: 0
+      
+      - name: prepare comit
+        run: rm package*.json;cp -f *.json ./self;cd self
 
       - name: Commit & Push changes
         uses: actions-js/push@master
