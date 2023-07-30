@@ -1,0 +1,33 @@
+name: update-flow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    name: Update Main Data
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+        with:
+          repository: 'HeYaoDaDa/GrcData'
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: run script
+        env:
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+        run: npx tsc && node dist/app.js
+      
+      - name: prepare commit
+        run: echo '\nsrc/\npackage*\ntsconfig.json' >> ./.gitignore;git remote set-url origin https://github.com/${{github.repository}}.git
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.REPO_TOKEN }}
+          force: true
